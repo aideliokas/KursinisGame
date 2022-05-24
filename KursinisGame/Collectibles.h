@@ -10,17 +10,16 @@ class Collectibles
 
 private:
 
-	sf::Sprite playerSprite;
-	sf::Texture* playerTexture;
+	sf::Sprite collectibleSprite;
+	sf::Texture* collectibleTexture;
 
 	float speedMove;
 
 	void initVariables();
-	void initSprite();
 
 
 public:
-	Collectibles();
+	Collectibles(sf::Texture* collectibleTexture, float posX, float posY);
 	virtual ~Collectibles();
 
 
@@ -28,6 +27,7 @@ public:
 	sf::Vector2f getPos();
 	sf::FloatRect getBounds();
 
+	void update();
 	void render(sf::RenderTarget& target);
 
 };

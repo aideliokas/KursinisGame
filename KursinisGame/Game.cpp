@@ -116,14 +116,18 @@ void Game::updateInput()
 
 void Game::updateCollectibles()
 {
+	for (auto coll : vecCollectibles) 
+		{
+			coll->update();
+		}
 	this->spawnTimer += rand() % 3 * 1.f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
-		//this->vecCollectibles.push_back(new Enemy(this->textures[ET_ENEMY1], 1, 150.f + randX, -70.f));
+		this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible1], 150.f, -70.f));
 		this->spawnTimer = 0.f;
 	}
 
-
+	
 }
 
 void Game::updateText()
@@ -153,7 +157,7 @@ void Game::render()
 
 	for (auto collectibles : this->vecCollectibles)
 	{
-		//collectibles->render(this->window);
+		collectibles->render(*this->window);
 	}
 
 	this->window->draw(this->text);
