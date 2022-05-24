@@ -7,7 +7,6 @@
 #include <sstream>
 #include <vector>
 #include <map>
-//#include <set>
 
 #include "Player.h"
 #include "Collectibles.h"
@@ -33,7 +32,9 @@ private:
 	float spawnTimer;
 	float spawnTimerMax;
 	int score;
+	bool collectiblesRemoved;
 
+	float posX;
 
 
 	sf::Font font;

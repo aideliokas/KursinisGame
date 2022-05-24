@@ -44,7 +44,7 @@ void Game::initText()
 }
 void Game::initCollectibles()
 {
-	this->spawnTimerMax = 500.f;
+	this->spawnTimerMax = 30.f;
 	this->spawnTimer = this->spawnTimerMax;
 }
 
@@ -56,11 +56,23 @@ Game::Game()
 	this->initCollectibles();
 	this->initText();
 	this->backSprite.setTexture(*this->mapTextures[Background]);
+	this->posX = 760.f;
 }
 
 
 Game::~Game()
 {
+	delete this->window;
+	delete this->player;
+
+	for (auto coll : this->vecCollectibles)
+	{
+		delete coll;
+	}
+	for (auto& texture : this->mapTextures)
+	{
+		delete texture.second;
+	}
 }
 
 void Game::start()
@@ -94,11 +106,11 @@ void Game::updateInput()
 		// Move player
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && this->player->getBounds().left >= 0)
 		{
-			this->player->move(-2.5f, this->mapTextures[PlayerTex1]);
+			this->player->move(-2.f, this->mapTextures[PlayerTex1]);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && this->player->getBounds().left <= 1500 - this->player->getBounds().width)
 		{
-			this->player->move(2.5f, this->mapTextures[PlayerTex]);
+			this->player->move(2.f, this->mapTextures[PlayerTex]);
 		}
 	}
 	else
@@ -120,13 +132,58 @@ void Game::updateCollectibles()
 		{
 			coll->update();
 		}
-	this->spawnTimer += rand() % 3 * 1.f;
+
+
+	this->spawnTimer += rand() % 2 * 3.f;
 	if (this->spawnTimer >= this->spawnTimerMax)
 	{
-		this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible1], 150.f, -70.f));
+		if (rand() % 2 && this->posX >=230)
+		{
+			this->posX -= rand() % 10 * 25;
+		}
+		else if(this->posX <=1500-280)
+		{
+			this->posX += rand() % 10 * 25;
+		}
+
+
+		switch (rand() % 5) {
+		case 0:
+			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible1], this->posX, -70.f));
+			break;
+		case 1:
+			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible2], this->posX, -70.f));
+			break;
+		case 2:
+			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible3], this->posX, -70.f));
+			break;
+		case 3:
+			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible4], this->posX, -70.f));
+			break;
+		default:
+			std::cout << "Gap!\n";
+		}
 		this->spawnTimer = 0.f;
 	}
 
+
+	this->collectiblesRemoved = false;
+	for (int i = 0; i < this->vecCollectibles.size() && !this->collectiblesRemoved; i++)
+		{
+			if (this->player->getBounds().intersects(this->vecCollectibles[i]->getBounds()))
+			{
+				this->vecCollectibles.erase(this->vecCollectibles.begin() + i);
+				score += 100;
+				this->collectiblesRemoved = true;
+			}
+			else if (this->vecCollectibles[i]->getPos().y >= 850) 
+			{
+				this->vecCollectibles.erase(this->vecCollectibles.begin() + i);
+				score -= 100;
+				this->collectiblesRemoved = true;
+			}
+		}
+	//std::cout << score << "\n";
 	
 }
 

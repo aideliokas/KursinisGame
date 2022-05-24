@@ -1,7 +1,7 @@
 #include "Collectibles.h"
 void Collectibles::initVariables()
 {
-	this->speedMove = 1.f;
+	this->speedMove = 6.f;
 }
 
 
@@ -9,7 +9,7 @@ Collectibles::Collectibles(sf::Texture* collectibleTexture, float posX, float po
 {
 	this->initVariables();
 	this->collectibleSprite.setTexture(*collectibleTexture);
-	this->collectibleSprite.scale(1.f, 1.f);
+	this->collectibleSprite.scale(0.7f, 0.7f);
 	this->collectibleSprite.setPosition(posX, posY);
 }
 

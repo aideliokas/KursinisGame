@@ -4,14 +4,14 @@
 
 void Player::initVariables()
 {
-	this->speedMove = 2.f;
+	this->speedMove = 4.5f;
 }
 void Player::initSprite()
 {
 	// Give texture to sprite
 	
 	// Resize te sprite
-	this->playerSprite.scale(1.f, 1.f);
+	this->playerSprite.scale(0.9f, 0.9f);
 	this->playerSprite.setPosition(750-this->playerSprite.getGlobalBounds().width/2, 850- this->playerSprite.getGlobalBounds().height);
 }
 
