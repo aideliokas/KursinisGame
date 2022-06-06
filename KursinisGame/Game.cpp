@@ -2,7 +2,7 @@
 
 void Game::initializeWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(1500, 850), "OSU 2.0", sf::Style::Close | sf::Style::Titlebar);
+	this->window = new sf::RenderWindow(sf::VideoMode(1500, 850), "CATCH A CIRCLE!", sf::Style::Close | sf::Style::Titlebar);
 	this->window->setFramerateLimit(144);
 	this->window->setVerticalSyncEnabled(false);
 }
@@ -13,8 +13,10 @@ void Game::initTextures()
 	this->mapTextures[PlayerTex]->loadFromFile("Textures/Player.png");
 	this->mapTextures[PlayerTex1] = new sf::Texture();
 	this->mapTextures[PlayerTex1]->loadFromFile("Textures/Player1.png");
-	this->mapTextures[PlayerTex1] = new sf::Texture();
-	this->mapTextures[PlayerTex1]->loadFromFile("Textures/Player1.png");
+	this->mapTextures[PlayerTex2] = new sf::Texture();
+	this->mapTextures[PlayerTex2]->loadFromFile("Textures/Player2.png");
+	this->mapTextures[PlayerTex3] = new sf::Texture();
+	this->mapTextures[PlayerTex3]->loadFromFile("Textures/Player3.png");
 	this->mapTextures[Collectible1] = new sf::Texture();
 	this->mapTextures[Collectible1]->loadFromFile("Textures/Collectible-1.png");
 	this->mapTextures[Collectible2] = new sf::Texture();
@@ -33,14 +35,31 @@ void Game::initPlayer()
 
 void Game::initText()
 {
-	this->font.loadFromFile("Fonts/HackbotFreeTrial-8MgA2.otf");
+	this->font.loadFromFile("Fonts/Shotgun.ttf");
 
 	this->text.setFont(this->font);
-	this->text.setCharacterSize(30);
-	this->text.setFillColor(sf::Color::White);
-	this->text.setOutlineColor(sf::Color::Black);
+	this->text.setCharacterSize(50);
+	this->text.setFillColor(sf::Color::Color(241, 233, 210));
+	this->text.setOutlineColor(sf::Color::Color(226,62,113));
 	this->text.setOutlineThickness(1);
 	this->text.setString("NONE");
+	this->text.setPosition(700.f, 200.f);
+
+	this->text1.setFont(this->font);
+	this->text1.setCharacterSize(30);
+	this->text1.setFillColor(sf::Color::Color(241, 233, 210));
+	this->text1.setOutlineColor(sf::Color::Color(0, 102, 0));
+	this->text1.setOutlineThickness(1);
+	this->text1.setString("NONE");
+	this->text1.setPosition(720.f, 260.f);
+
+	this->text2.setFont(this->font);
+	this->text2.setCharacterSize(30);
+	this->text2.setFillColor(sf::Color::Color(241, 233, 210));
+	this->text2.setOutlineColor(sf::Color::Color(241, 233, 210));
+	this->text2.setOutlineThickness(1);
+	this->text2.setString("NONE");
+	this->text2.setPosition(720.f, 320.f);
 }
 void Game::initCollectibles()
 {
@@ -60,7 +79,7 @@ Game::Game()
 }
 
 
-Game::~Game()
+Game::~Game() // destruktorius naikinantis dinaminius atminties darinius
 {
 	delete this->window;
 	delete this->player;
@@ -78,7 +97,7 @@ Game::~Game()
 void Game::start()
 {
 	//Game loop
-	while (this->window->isOpen()/*this->running() && !this->endGame */)
+	while (this->window->isOpen())
 	{
 		//Update
 		this->update();
@@ -103,14 +122,14 @@ void Game::updateInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
 	{
-		// Move player
+		// Zaidejo judejimo sistema
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) && this->player->getBounds().left >= 0)
 		{
-			this->player->move(-2.f, this->mapTextures[PlayerTex1]);
+			this->player->move(-2.f, this->mapTextures[PlayerTex3]);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) && this->player->getBounds().left <= 1500 - this->player->getBounds().width)
 		{
-			this->player->move(2.f, this->mapTextures[PlayerTex]);
+			this->player->move(2.f, this->mapTextures[PlayerTex2]);
 		}
 	}
 	else
@@ -173,13 +192,15 @@ void Game::updateCollectibles()
 			if (this->player->getBounds().intersects(this->vecCollectibles[i]->getBounds()))
 			{
 				this->vecCollectibles.erase(this->vecCollectibles.begin() + i);
-				score += 100;
+				score += 3;
+				collected += 1;
 				this->collectiblesRemoved = true;
 			}
 			else if (this->vecCollectibles[i]->getPos().y >= 850) 
 			{
 				this->vecCollectibles.erase(this->vecCollectibles.begin() + i);
-				score -= 100;
+				score -= 10;
+				missed += 1;
 				this->collectiblesRemoved = true;
 			}
 		}
@@ -190,8 +211,14 @@ void Game::updateCollectibles()
 void Game::updateText()
 {
 	std::stringstream ss;
-	ss << "SCORE: " << this->score;
+	std::stringstream _collected;
+	std::stringstream _missed;
+	ss << this->score;
+	_collected << this->collected;
+	_missed << this->missed;
 	this->text.setString(ss.str());
+	this->text1.setString(_collected.str());
+	this->text2.setString(_missed.str());
 }
 
 void Game::update()
@@ -207,17 +234,20 @@ void Game::render()
 {
 
 	this->window->draw(backSprite);
+	this->window->draw(this->text);
+	this->window->draw(this->text1);
+	//this->window->draw(this->text2);
 
-	// Draw all
 
 	this->player->render(*this->window);
+
 
 	for (auto collectibles : this->vecCollectibles)
 	{
 		collectibles->render(*this->window);
 	}
 
-	this->window->draw(this->text);
+	
 	this->window->display();
 }
 

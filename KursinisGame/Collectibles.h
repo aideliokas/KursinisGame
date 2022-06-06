@@ -17,10 +17,9 @@ private:
 
 	void initVariables();
 
-
 public:
-	Collectibles(sf::Texture* collectibleTexture, float posX, float posY);
-	virtual ~Collectibles();
+	Collectibles(sf::Texture* collectibleTexture, float posX, float posY); // konstruktorius
+	virtual ~Collectibles(); // destruktorius
 
 
 

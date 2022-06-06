@@ -22,8 +22,8 @@ private:
 
 	enum Textures
 	{
-		PlayerTex, PlayerTex1, Collectible1, Collectible2,
-		Collectible3, Collectible4, Background
+		PlayerTex, PlayerTex1, PlayerTex2, PlayerTex3, Collectible1,
+		Collectible2, Collectible3, Collectible4, Background
 	};
 
 
@@ -32,13 +32,17 @@ private:
 	float spawnTimer;
 	float spawnTimerMax;
 	int score;
+	int collected;
+	int missed;
 	bool collectiblesRemoved;
 
 	float posX;
 
 
 	sf::Font font;
-	sf::Text text;
+	sf::Text text;  // score'as
+	sf::Text text1; // sugauti
+	sf::Text text2; // praleisti
 
 	Player* player;
 

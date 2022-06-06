@@ -10,8 +10,8 @@ void Player::initSprite()
 {
 	// Give texture to sprite
 	
-	// Resize te sprite
-	this->playerSprite.scale(0.9f, 0.9f);
+	
+	this->playerSprite.scale(0.9f, 0.9f); // Pakeiciam sprite dydi
 	this->playerSprite.setPosition(750-this->playerSprite.getGlobalBounds().width/2, 850- this->playerSprite.getGlobalBounds().height);
 }
 

@@ -5,7 +5,7 @@ void Collectibles::initVariables()
 }
 
 
-Collectibles::Collectibles(sf::Texture* collectibleTexture, float posX, float posY)
+Collectibles::Collectibles(sf::Texture* collectibleTexture, float posX, float posY) // konstruktorius
 {
 	this->initVariables();
 	this->collectibleSprite.setTexture(*collectibleTexture);
@@ -13,7 +13,7 @@ Collectibles::Collectibles(sf::Texture* collectibleTexture, float posX, float po
 	this->collectibleSprite.setPosition(posX, posY);
 }
 
-Collectibles::~Collectibles()
+Collectibles::~Collectibles() // destruktorius
 {
 }
 

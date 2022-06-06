@@ -20,8 +20,8 @@ private:
 
 public:
 
-	Player(sf::Texture* playerTexture);
-	virtual ~Player();
+	Player(sf::Texture* playerTexture); // konstruktorius
+	virtual ~Player(); // virtual destruktorius
 
 	sf::Vector2f getPos();
 	sf::FloatRect getBounds();
