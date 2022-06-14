@@ -15,10 +15,10 @@ private:
 
 	float speedMove;
 
-	void initVariables();
+	//void initVariables();
 
 public:
-	Collectibles(sf::Texture* collectibleTexture, float posX, float posY); // konstruktorius
+	Collectibles(sf::Texture* collectibleTexture, float posX, float posY, float speed); // konstruktorius
 	virtual ~Collectibles(); // destruktorius
 
 

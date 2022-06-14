@@ -1,13 +1,16 @@
 #include "Collectibles.h"
-void Collectibles::initVariables()
-{
-	this->speedMove = 6.f;
-}
+//void Collectibles::initVariables()
+//{
+//	this->speedMove = 6.f;
+//}
 
 
-Collectibles::Collectibles(sf::Texture* collectibleTexture, float posX, float posY) // konstruktorius
+
+
+Collectibles::Collectibles(sf::Texture* collectibleTexture, float posX, float posY, float speed) // konstruktorius
 {
-	this->initVariables();
+	//this->initVariables();
+	this->speedMove = speed;
 	this->collectibleSprite.setTexture(*collectibleTexture);
 	this->collectibleSprite.scale(0.7f, 0.7f);
 	this->collectibleSprite.setPosition(posX, posY);
@@ -16,6 +19,8 @@ Collectibles::Collectibles(sf::Texture* collectibleTexture, float posX, float po
 Collectibles::~Collectibles() // destruktorius
 {
 }
+
+
 
 
 

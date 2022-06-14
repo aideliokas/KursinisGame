@@ -53,6 +53,14 @@ void Game::initText()
 	this->text1.setString("NONE");
 	this->text1.setPosition(720.f, 260.f);
 
+	this->levelText.setFont(this->font);
+	this->levelText.setCharacterSize(30);
+	this->levelText.setFillColor(sf::Color::Color(241, 233, 210));
+	this->levelText.setOutlineColor(sf::Color::Color(0, 102, 0));
+	this->levelText.setOutlineThickness(1);
+	this->levelText.setString("NONE");
+	//this->levelText.setPosition(720.f, 260.f);
+
 	this->text2.setFont(this->font);
 	this->text2.setCharacterSize(30);
 	this->text2.setFillColor(sf::Color::Color(241, 233, 210));
@@ -154,30 +162,44 @@ void Game::updateCollectibles()
 
 
 	this->spawnTimer += rand() % 2 * 3.f;
-	if (this->spawnTimer >= this->spawnTimerMax)
+	if (this->spawnTimer >= this->spawnTimerMax) 
 	{
 		if (rand() % 2 && this->posX >=230)
 		{
-			this->posX -= rand() % 10 * 25;
+			this->posX -= rand() % 10 * 25; // collectibles kritimo algoritmas
 		}
 		else if(this->posX <=1500-280)
 		{
 			this->posX += rand() % 10 * 25;
 		}
 
+	    if (this->score >= 300 && this->score < 1000)
+		{
+			this->speed = 8.f;
+		}
+		else if (this->score >= 1000)
+		{
+			this->speed = 10.f;
+			
+		}
+		else
+		{
+			this->speed = 6.f;
+			
+		}
 
 		switch (rand() % 5) {
 		case 0:
-			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible1], this->posX, -70.f));
+			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible1], this->posX, -70.f, this->speed));
 			break;
 		case 1:
-			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible2], this->posX, -70.f));
+			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible2], this->posX, -70.f, this->speed));
 			break;
 		case 2:
-			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible3], this->posX, -70.f));
+			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible3], this->posX, -70.f, this->speed));
 			break;
 		case 3:
-			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible4], this->posX, -70.f));
+			this->vecCollectibles.push_back(new Collectibles(this->mapTextures[Collectible4], this->posX, -70.f, this->speed));
 			break;
 		default:
 			std::cout << "Gap!\n";
@@ -205,6 +227,8 @@ void Game::updateCollectibles()
 			}
 		}
 	//std::cout << score << "\n";
+
+
 	
 }
 
@@ -213,12 +237,31 @@ void Game::updateText()
 	std::stringstream ss;
 	std::stringstream _collected;
 	std::stringstream _missed;
+	std::stringstream _levelis;
 	ss << this->score;
 	_collected << this->collected;
 	_missed << this->missed;
 	this->text.setString(ss.str());
 	this->text1.setString(_collected.str());
 	this->text2.setString(_missed.str());
+
+	if(score<300)
+	{
+		
+		_levelis << "LEVEL 1";
+	}
+	else if (this->score >= 300 && this->score < 1000)
+	{
+		_levelis << "LEVEL 2";
+	}
+	else if (this->score >= 1000)
+	{
+		
+		_levelis << "LEVEL 3";
+	}
+	
+
+	this->levelText.setString(_levelis.str());
 }
 
 void Game::update()
@@ -236,6 +279,7 @@ void Game::render()
 	this->window->draw(backSprite);
 	this->window->draw(this->text);
 	this->window->draw(this->text1);
+	this->window->draw(this->levelText);
 	//this->window->draw(this->text2);
 
 

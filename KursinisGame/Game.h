@@ -35,6 +35,7 @@ private:
 	int collected;
 	int missed;
 	bool collectiblesRemoved;
+	float speed;
 
 	float posX;
 
@@ -43,6 +44,8 @@ private:
 	sf::Text text;  // score'as
 	sf::Text text1; // sugauti
 	sf::Text text2; // praleisti
+	sf::Text levelText;
+
 
 	Player* player;
 
